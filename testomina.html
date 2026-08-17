@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Universal Data Extractor & Testimonial Generator</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: #f1f5f9;
+            margin: 0;
+            padding: 20px;
+        }
+
+        .input-panel {
+            max-width: 900px;
+            margin: 0 auto 30px auto;
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .input-panel h2 {
+            margin-top: 0;
+            color: #1e3a8a;
+            font-size: 18px;
+        }
+
+        .input-panel textarea {
+            width: 100%;
+            height: 250px;
+            padding: 12px;
+            border: 2px solid #cbd5e1;
+            border-radius: 6px;
+            font-size: 14px;
+            resize: vertical;
+            margin-bottom: 15px;
+            outline: none;
+            line-height: 1.5;
+        }
+
+        .input-panel textarea:focus {
+            border-color: #0284c7;
+        }
+
+        .action-btn {
+            padding: 12px 30px;
+            background-color: #059669;
+            color: white;
+            font-size: 16px;
+            font-weight: bold;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            transition: background 0.2s;
+        }
+
+        .action-btn:hover {
+            background-color: #047857;
+        }
+
+        /* Printable Layout */
+        .page {
+            width: 210mm;
+            min-height: 297mm;
+            padding: 15mm 20mm;
+            margin: auto;
+            background: white;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .header-banner {
+            border-bottom: 2px solid #1e3a8a;
+            padding-bottom: 8px;
+        }
+
+        .institution-name {
+            color: #cc0000;
+            font-size: 28px;
+            font-weight: bold;
+            margin: 0;
+        }
+
+        .institution-name span {
+            color: #666;
+            font-size: 26px;
+        }
+
+        .sub-tagline {
+            background-color: #1e3a8a;
+            color: white;
+            text-align: center;
+            font-size: 11px;
+            font-weight: bold;
+            letter-spacing: 1px;
+            padding: 3px 0;
+            margin-top: 4px;
+        }
+
+        .date-row {
+            text-align: right;
+            margin-top: 15px;
+            font-size: 14px;
+        }
+
+        .content {
+            margin-top: 30px;
+            flex-grow: 1;
+        }
+
+        .title {
+            text-align: center;
+            font-size: 22px;
+            font-weight: bold;
+            text-decoration: underline;
+            margin-bottom: 35px;
+        }
+
+        .body-paragraph {
+            font-size: 15px;
+            line-height: 1.8;
+            color: #111;
+            text-align: justify;
+        }
+
+        .signature-section {
+            text-align: right;
+            margin-top: 60px;
+            margin-bottom: 40px;
+        }
+
+        .footer {
+            border-top: 1px solid #ccc;
+            padding-top: 10px;
+            text-align: center;
+            font-size: 11px;
+            color: #444;
+        }
+
+        @media print {
+            body { background: none; padding: 0; }
+            .no-print { display: none !important; }
+            .page { box-shadow: none; margin: 0; width: 100%; height: 100vh; padding: 10mm 15mm; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- INPUT PANEL -->
+    <div class="input-panel no-print">
+        <h2>১৬টি ফরম্যাটের যেকোনো একটি এখানে পেস্ট করুন:</h2>
+        <textarea id="raw-data" placeholder="এখানে মেসেজ বা পেস্ট করা ডাটা দিন..."></textarea>
+        <button class="action-btn" onclick="parseAndGenerate()">Extract & Generate PDF</button>
+    </div>
+
+    <!-- PRINTABLE TEMPLATE -->
+    <div class="page" id="printable-area">
+        <div>
+            <div class="header-banner">
+                <h1 class="institution-name">Cambrian <span>School & College</span></h1>
+            </div>
+            <div class="sub-tagline">Education for Peace and Self-Reliance</div>
+            <div class="date-row">
+                Date : <span id="issue-date"></span>
+            </div>
+        </div>
+
+        <div class="content">
+            <div class="title">TESTIMONIAL</div>
+            <div class="body-paragraph">
+                This is to certify that <b id="out-name">Nusaiba Jannat Arisha</b>, child of <b id="out-father">BULBUL AHMED</b> & <b id="out-mother">PINKI AHMED</b>, is a student of this institution. Date of birth according to record is <span id="out-dob">28/10/2024</span>. To the best of my knowledge, bears a good moral character and did not take part in any activity subversive to state discipline.
+            </div>
+            <div style="margin-top: 25px;">I wish every success in life.</div>
+        </div>
+
+        <div>
+            <div class="signature-section">
+                <div style="font-family: 'Brush Script MT', cursive; font-size: 24px; color: #1e3a8a;">Principal</div>
+                <div style="font-weight: bold; font-size: 16px;">Principal</div>
+                <div style="font-size: 13px; color: #333;">
+                    Cambrian School & College<br>
+                    Keraniganj, Dhaka-1310
+                </div>
+            </div>
+            <div class="footer">
+                <b>CAMBRIAN COLLEGE:</b> Dhaka, Bangladesh | Mob: 01817505494 | E-mail: info@cambrianbd.com
+            </div>
+        </div>
+    </div>
+
+    <!-- UNIVERSAL PARSING ENGINE -->
+    <script>
+        document.getElementById("issue-date").innerText = new Date().toLocaleDateString('en-GB');
+
+        // ১. ডিজিট কনভার্টার (বাংলা সংখ্যা -> ইংরেজি সংখ্যা)
+        function toEngDigits(str) {
+            const bng = ['০', '১', '২', '৩', '৪', '৫', '৬', '৭', '৮', '৯'];
+            const eng = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9'];
+            return str.replace(/[০-৯]/g, w => eng[bng.indexOf(w)]);
+        }
+
+        // ২. ফলব্যাক বাংলা টু ইংরেজি স্পেলিং ইঞ্জিনিয়ারিং
+        function banglaToEnglishText(bnStr) {
+            if (!bnStr) return "";
+            bnStr = bnStr.replace(/মোঃ|মো:|মো/g, "Md.").replace(/মোছাঃ|মোছা/g, "Mst.");
+            const charMap = {
+                'অ':'O','আ':'A','ই':'I','ঈ':'I','উ':'U','ঊ':'U','এ':'E','ও':'O',
+                'ক':'K','খ':'Kh','গ':'G','ঘ':'Gh','চ':'Ch','ছ':'Chh','জ':'J','ঝ':'Jh',
+                'ট':'T','ঠ':'Th','ড':'D','ঢ':'Dh','ত':'T','থ':'Th','দ':'D','ধ':'Dh','ন':'N',
+                'প':'P','ফ':'F','ব':'B','ভ':'Bh','ম':'M','য':'J','র':'R','ল':'L','শ':'Sh','স':'S','হ':'H',
+                'া':'a','ি':'i','ী':'ee','ু':'u','ূ':'u','ে':'e','ো':'o','্':''
+            };
+            let res = "";
+            for (let c of bnStr) res += charMap[c] !== undefined ? charMap[c] : c;
+            return res.replace(/\b\w/g, l => l.toUpperCase()).trim();
+        }
+
+        // ৩. প্রধান পার্সার ফাংশন
+        function parseAndGenerate() {
+            let rawText = document.getElementById("raw-data").value;
+            if (!rawText.trim()) { alert("দয়া করে ডাটা পেস্ট করুন!"); return; }
+
+            // টেক্সট ক্লিন করা
+            let text = toEngDigits(rawText);
+
+            // ইমোজি, স্টার, ব্র্যাকেট ইত্যাদি অপ্রয়োজনীয় ক্যারেক্টার ক্লিন করা
+            text = text.replace(/[★♦️🗣️*_\-]/g, ' ')
+                       .replace(/(\n\s*){2,}/g, '\n'); // অতিরিক্ত নিউলাইন মুছে ফেলা
+
+            // ক) জন্ম তারিখ নির্ধারণ (DD-MM-YYYY, DD/MM/YYYY, YYYY-MM-DD)
+            let dobMatch = text.match(/(\d{2}[\/\.-]\d{2}[\/\.-]\d{4}|\d{4}[\/\.-]\d{2}[\/\.-]\d{2})/);
+            let finalDob = dobMatch ? dobMatch[0] : "";
+            if (finalDob.includes("-")) finalDob = finalDob.replace(/-/g, "/");
+
+            // খ) সেকশন বা ব্লক ভাগ করা (পিতা এবং মাতা ব্লক আলাদা করা)
+            let fatherBlock = "", motherBlock = "", selfBlock = text;
+
+            if (/পিতার|Father/i.test(text)) {
+                let parts = text.split(/পিতার|Father/i);
+                selfBlock = parts[0];
+                let rest = parts[1] || "";
+                if (/মাতার|Mother/i.test(rest)) {
+                    let mParts = rest.split(/মাতার|Mother/i);
+                    fatherBlock = mParts[0];
+                    motherBlock = mParts[1];
+                } else {
+                    fatherBlock = rest;
+                }
+            } else if (/মাতার|Mother/i.test(text)) {
+                let parts = text.split(/মাতার|Mother/i);
+                selfBlock = parts[0];
+                motherBlock = parts[1];
+            }
+
+            // গ) ইংরেজি নাম ফিল্টার করার স্মার্ট হেল্পার
+            function extractEnglishName(blockText) {
+                if (!blockText) return "";
+
+                // ব্র্যাকেটে থাকা ইংরেজি নাম চেক করা: যেমন: (MD MOHI UDDIN BHUIYAN)
+                let bracketMatch = blockText.match(/\(\s*([A-Za-z\s\.]+)\s*\)/);
+                if (bracketMatch && bracketMatch[1].length > 2) {
+                    return bracketMatch[1].trim();
+                }
+
+                // সাধারণ লাইন ভিত্তিক ইংরেজি নাম খোঁজা
+                let lines = blockText.split('\n');
+                for (let line of lines) {
+                    let clean = line.replace(/[^A-Za-z\s\.]/g, '').replace(/\s+/g, ' ').trim();
+                    let upper = clean.toUpperCase();
+
+                    // ঠিকানা বা অপ্রয়োজনীয় কিওয়ার্ড স্কিপ
+                    if (clean.length > 2 &&
+                        !upper.includes("NAME") && !upper.includes("ENGLISH") && !upper.includes("BANGLA") &&
+                        !upper.includes("VILLAGE") && !upper.includes("POST") && !upper.includes("WARD") &&
+                        !upper.includes("DISTRICT") && !upper.includes("UPAZILA") && !upper.includes("UNION") &&
+                        !upper.includes("POUROSHAVA") && !upper.includes("GENDER") && !upper.includes("MALE") &&
+                        !upper.includes("FEMALE") && !upper.includes("CHILD") && !upper.includes("DATE") &&
+                        !upper.includes("BIRTH") && !upper.includes("NID") && !upper.includes("NUMBER")) {
+                        return clean;
+                    }
+                }
+                return "";
+            }
+
+            // ঘ) বাংলা নাম ধরে ইংরেজিতে অনুবাদ করার হেল্পার (Fallback)
+            function extractBanglaNameAndTranslate(blockText) {
+                if (!blockText) return "";
+                let lines = blockText.split('\n');
+                for (let line of lines) {
+                    let clean = line.replace(/[^\u0980-\u09FF\s\.]/g, '').replace(/\s+/g, ' ').trim();
+                    if (clean.length > 2 && !clean.includes("ঠিকানা") && !clean.includes("পিতা") && !clean.includes("মাতা")) {
+                        return banglaToEnglishText(clean);
+                    }
+                }
+                return "";
+            }
+
+            // নাম বের করা
+            let finalName = extractEnglishName(selfBlock) || extractBanglaNameAndTranslate(selfBlock);
+            let finalFather = extractEnglishName(fatherBlock) || extractBanglaNameAndTranslate(fatherBlock);
+            let finalMother = extractEnglishName(motherBlock) || extractBanglaNameAndTranslate(motherBlock);
+
+            // ঘ) UI তে বসানো
+            document.getElementById("out-name").innerText = finalName || "Nusaiba Jannat Arisha";
+            document.getElementById("out-father").innerText = finalFather || "BULBUL AHMED";
+            document.getElementById("out-mother").innerText = finalMother || "PINKI AHMED";
+            document.getElementById("out-dob").innerText = finalDob || "28/10/2024";
+
+            // অটো প্রিন্ট ডায়ালগ
+            setTimeout(() => { window.print(); }, 300);
+        }
+    </script>
+</body>
+</html>

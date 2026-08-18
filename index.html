@@ -1,93 +1,472 @@
+html
 <!DOCTYPE html>
 <html lang="bn">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Universal Data Extractor & Testimonial Generator</title>
+
+    <title>Testimonial Generator</title>
+
     <style>
         * {
             box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
         }
 
         body {
-            background-color: #f1f5f9;
-            margin: 0;
-            padding: 20px;
+            background:
+                radial-gradient(circle at top left, #e9e7ff 0, transparent 30%),
+                radial-gradient(circle at bottom right, #dff8ff 0, transparent 30%),
+                #f4f7fb;
+            color: #172033;
+            padding-bottom: 40px;
         }
+
+        /* =========================
+           TOP DEPLOYED BAR
+        ========================= */
+
+        .top-marquee {
+            width: 100%;
+            overflow: hidden;
+            background: linear-gradient(
+                90deg,
+                #4f20e8,
+                #7137ff,
+                #0066ff,
+                #00a6d6,
+                #4f20e8
+            );
+            background-size: 300% 100%;
+            animation: gradientMove 8s linear infinite;
+            color: white;
+            height: 42px;
+            display: flex;
+            align-items: center;
+            position: relative;
+            box-shadow: 0 3px 15px rgba(67, 56, 202, .25);
+        }
+
+        @keyframes gradientMove {
+            0% {
+                background-position: 0% 50%;
+            }
+
+            100% {
+                background-position: 300% 50%;
+            }
+        }
+
+        .marquee-track {
+            display: flex;
+            width: max-content;
+            animation: marquee 18s linear infinite;
+            white-space: nowrap;
+        }
+
+        .marquee-item {
+            font-size: 14px;
+            font-weight: 700;
+            letter-spacing: .4px;
+            padding: 0 45px;
+        }
+
+        .marquee-item span {
+            color: #ffe66d;
+            margin-right: 8px;
+        }
+
+        @keyframes marquee {
+            from {
+                transform: translateX(0);
+            }
+
+            to {
+                transform: translateX(-50%);
+            }
+        }
+
+        /* =========================
+           NAVBAR
+        ========================= */
+
+        .navbar {
+            width: calc(100% - 32px);
+            max-width: 1180px;
+            margin: 16px auto 22px;
+            min-height: 72px;
+            padding: 10px 16px 10px 22px;
+
+            background: rgba(255, 255, 255, .88);
+            backdrop-filter: blur(18px);
+            -webkit-backdrop-filter: blur(18px);
+
+            border: 1px solid rgba(255, 255, 255, .8);
+            border-radius: 20px;
+
+            box-shadow:
+                0 12px 35px rgba(31, 41, 55, .08),
+                inset 0 1px 0 rgba(255,255,255,.8);
+
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 20px;
+            position: relative;
+            z-index: 10;
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 11px;
+            text-decoration: none;
+            color: #111827;
+            min-width: max-content;
+        }
+
+        .brand-icon {
+            width: 43px;
+            height: 43px;
+            border-radius: 13px;
+
+            background: linear-gradient(
+                135deg,
+                #5125ed,
+                #7c3aed
+            );
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            color: white;
+            font-size: 21px;
+
+            box-shadow: 0 8px 18px rgba(99, 67, 230, .25);
+        }
+
+        .brand-text {
+            font-size: 20px;
+            font-weight: 800;
+        }
+
+        .brand-text span {
+            color: #5b35e7;
+        }
+
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .nav-link {
+            text-decoration: none;
+            color: #566176;
+            font-size: 14px;
+            font-weight: 700;
+            padding: 12px 16px;
+            border-radius: 12px;
+            transition: .25s ease;
+        }
+
+        .nav-link:hover,
+        .nav-link.active {
+            color: #5030db;
+            background: #f0edff;
+        }
+
+        /* =========================
+           CANVA BUTTON
+        ========================= */
+
+        .canva-btn {
+            border: none;
+            cursor: pointer;
+
+            color: white;
+            font-size: 14px;
+            font-weight: 800;
+
+            padding: 13px 20px;
+            border-radius: 13px;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #5b2bea,
+                    #7c3aed 50%,
+                    #06b6d4
+                );
+
+            box-shadow:
+                0 8px 20px rgba(91, 43, 234, .25);
+
+            transition: .25s ease;
+            white-space: nowrap;
+        }
+
+        .canva-btn:hover {
+            transform: translateY(-2px);
+            box-shadow:
+                0 12px 25px rgba(91, 43, 234, .32);
+        }
+
+        .canva-btn:active {
+            transform: scale(.97);
+        }
+
+        /* =========================
+           MAIN CONTAINER
+        ========================= */
 
         .input-panel {
-            max-width: 900px;
-            margin: 0 auto 30px auto;
-            background: white;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            width: calc(100% - 32px);
+            max-width: 1050px;
+
+            margin: 0 auto 28px;
+
+            background: rgba(255,255,255,.94);
+            padding: 25px;
+
+            border-radius: 22px;
+
+            border: 1px solid #e7e9f3;
+
+            box-shadow:
+                0 15px 45px rgba(30,41,59,.08);
         }
 
-        .input-panel h2 {
-            margin-top: 0;
-            color: #1e3a8a;
+        .section-heading {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+
+            color: #4530c9;
             font-size: 18px;
+            font-weight: 800;
+
+            margin-bottom: 13px;
         }
 
-        .input-panel textarea {
+        .section-icon {
+            width: 34px;
+            height: 34px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            border-radius: 10px;
+
+            background: #f0edff;
+            color: #5b35e7;
+        }
+
+        textarea {
             width: 100%;
-            height: 250px;
-            padding: 12px;
-            border: 2px solid #cbd5e1;
-            border-radius: 6px;
-            font-size: 14px;
-            resize: vertical;
-            margin-bottom: 15px;
+            min-height: 145px;
+
+            padding: 15px 16px;
+
+            border: 1.5px solid #d7dce8;
+            border-radius: 14px;
+
             outline: none;
-            line-height: 1.5;
+            resize: vertical;
+
+            font-size: 14px;
+            line-height: 1.6;
+
+            background: #fbfcff;
+
+            transition: .2s;
         }
 
-        .input-panel textarea:focus {
-            border-color: #0284c7;
+        textarea:focus {
+            border-color: #6545ed;
+
+            box-shadow:
+                0 0 0 4px rgba(101,69,237,.09);
+
+            background: white;
+        }
+
+        .manual-section-title {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+
+            margin: 22px 0 14px;
+            padding-top: 19px;
+
+            border-top: 1px dashed #d8ddea;
+
+            color: #374151;
+            font-size: 15px;
+            font-weight: 800;
+        }
+
+        .manual-section-title::before {
+            content: "✦";
+            color: #643be8;
+        }
+
+        .input-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 13px;
+        }
+
+        .input-group {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .input-group label {
+            color: #4b5563;
+            font-size: 12px;
+            font-weight: 800;
+        }
+
+        .input-group input {
+            width: 100%;
+            padding: 11px 12px;
+
+            border: 1.5px solid #d7dce8;
+            border-radius: 11px;
+
+            outline: none;
+
+            font-size: 14px;
+
+            background: #fbfcff;
+
+            transition: .2s;
+        }
+
+        .input-group input:focus {
+            border-color: #6545ed;
+            background: white;
+
+            box-shadow:
+                0 0 0 4px rgba(101,69,237,.08);
+        }
+
+        /* =========================
+           BUTTONS
+        ========================= */
+
+        .btn-group {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 12px;
+            margin-top: 18px;
+        }
+
+        .action-btn,
+        .clear-btn {
+            border: none;
+            color: white;
+
+            padding: 14px 20px;
+
+            border-radius: 12px;
+
+            font-size: 15px;
+            font-weight: 800;
+
+            cursor: pointer;
+
+            transition: .25s ease;
         }
 
         .action-btn {
-            padding: 12px 30px;
-            background-color: #059669;
-            color: white;
-            font-size: 16px;
-            font-weight: bold;
-            border: none;
-            border-radius: 6px;
-            cursor: pointer;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-            transition: background 0.2s;
+            background: linear-gradient(135deg,#08a879,#059669);
+            box-shadow: 0 8px 18px rgba(5,150,105,.18);
         }
 
-        .action-btn:hover {
-            background-color: #047857;
+        .clear-btn {
+            background: linear-gradient(135deg,#ef4444,#dc2626);
+            box-shadow: 0 8px 18px rgba(220,38,38,.15);
         }
 
-        /* Printable Layout */
+        .action-btn:hover,
+        .clear-btn:hover {
+            transform: translateY(-2px);
+        }
+
+        /* =========================
+           PREVIEW WRAPPER
+        ========================= */
+
+        .preview-label {
+            width: calc(100% - 32px);
+            max-width: 1050px;
+
+            margin: 0 auto 10px;
+
+            font-size: 13px;
+            font-weight: 800;
+
+            color: #6b7280;
+        }
+
         .page {
             width: 210mm;
             min-height: 297mm;
+
             padding: 15mm 20mm;
+
             margin: auto;
+
             background: white;
-            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+
+            box-shadow:
+                0 15px 50px rgba(15,23,42,.12);
+
             display: flex;
             flex-direction: column;
             justify-content: space-between;
+
+            position: relative;
+            overflow: hidden;
+        }
+
+        .page::before {
+            content: "";
+            position: absolute;
+
+            width: 220px;
+            height: 220px;
+
+            border-radius: 50%;
+
+            background: radial-gradient(
+                circle,
+                rgba(99,102,241,.08),
+                transparent 70%
+            );
+
+            right: -70px;
+            top: -70px;
         }
 
         .header-banner {
             border-bottom: 2px solid #1e3a8a;
             padding-bottom: 8px;
+            position: relative;
+            z-index: 1;
         }
 
         .institution-name {
             color: #cc0000;
             font-size: 28px;
             font-weight: bold;
-            margin: 0;
         }
 
         .institution-name span {
@@ -98,10 +477,14 @@
         .sub-tagline {
             background-color: #1e3a8a;
             color: white;
+
             text-align: center;
+
             font-size: 11px;
             font-weight: bold;
+
             letter-spacing: 1px;
+
             padding: 3px 0;
             margin-top: 4px;
         }
@@ -141,183 +524,1235 @@
         .footer {
             border-top: 1px solid #ccc;
             padding-top: 10px;
+
             text-align: center;
+
             font-size: 11px;
             color: #444;
         }
 
+        /* =========================
+           CANVA MODAL
+        ========================= */
+
+        .modal {
+            position: fixed;
+            inset: 0;
+
+            background: rgba(15,23,42,.55);
+
+            display: none;
+            align-items: center;
+            justify-content: center;
+
+            z-index: 1000;
+
+            padding: 20px;
+        }
+
+        .modal.show {
+            display: flex;
+        }
+
+        .modal-box {
+            width: 100%;
+            max-width: 440px;
+
+            background: white;
+            border-radius: 22px;
+
+            padding: 28px;
+
+            box-shadow: 0 25px 80px rgba(0,0,0,.2);
+
+            animation: modalIn .25s ease;
+        }
+
+        @keyframes modalIn {
+            from {
+                opacity: 0;
+                transform: translateY(15px) scale(.97);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+
+        .modal-icon {
+            width: 55px;
+            height: 55px;
+
+            border-radius: 16px;
+
+            background: linear-gradient(
+                135deg,
+                #5b2bea,
+                #06b6d4
+            );
+
+            color: white;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            font-size: 25px;
+
+            margin-bottom: 16px;
+        }
+
+        .modal-box h3 {
+            font-size: 21px;
+            margin-bottom: 8px;
+        }
+
+        .modal-box p {
+            color: #6b7280;
+            font-size: 14px;
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+
+        .modal-actions {
+            display: flex;
+            gap: 10px;
+        }
+
+        .modal-close,
+        .modal-connect {
+            flex: 1;
+
+            border: none;
+            padding: 12px;
+
+            border-radius: 11px;
+
+            font-weight: 800;
+            cursor: pointer;
+        }
+
+        .modal-close {
+            background: #eef0f5;
+            color: #374151;
+        }
+
+        .modal-connect {
+            background: linear-gradient(135deg,#5b2bea,#06b6d4);
+            color: white;
+        }
+
+        /* =========================
+           RESPONSIVE
+        ========================= */
+
+        @media (max-width: 900px) {
+
+            .navbar {
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+
+            .brand {
+                width: 100%;
+                justify-content: center;
+            }
+
+            .input-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .nav-links {
+                order: 3;
+            }
+
+        }
+
+        @media (max-width: 600px) {
+
+            body {
+                padding-bottom: 20px;
+            }
+
+            .top-marquee {
+                height: 38px;
+            }
+
+            .marquee-item {
+                font-size: 12px;
+                padding: 0 25px;
+            }
+
+            .navbar {
+                width: calc(100% - 20px);
+                margin-top: 10px;
+                padding: 13px;
+                border-radius: 16px;
+            }
+
+            .brand-text {
+                font-size: 17px;
+            }
+
+            .nav-links {
+                width: 100%;
+                justify-content: center;
+                overflow-x: auto;
+            }
+
+            .nav-link {
+                padding: 9px 10px;
+                font-size: 12px;
+            }
+
+            .canva-btn {
+                width: 100%;
+            }
+
+            .input-panel {
+                width: calc(100% - 20px);
+                padding: 18px;
+                border-radius: 18px;
+            }
+
+            .input-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .btn-group {
+                grid-template-columns: 1fr;
+            }
+
+            .preview-label {
+                width: calc(100% - 20px);
+            }
+
+            .page {
+                transform-origin: top center;
+                width: 210mm;
+            }
+        }
+
+        /* =========================
+           PRINT
+        ========================= */
+
         @media print {
-            body { background: none; padding: 0; }
-            .no-print { display: none !important; }
-            .page { box-shadow: none; margin: 0; width: 100%; height: 100vh; padding: 10mm 15mm; }
+
+            body {
+                background: none;
+                padding: 0;
+            }
+
+            .no-print,
+            .top-marquee,
+            .navbar,
+            .preview-label {
+                display: none !important;
+            }
+
+            .page {
+                box-shadow: none;
+                margin: 0;
+                width: 100%;
+                height: 100vh;
+                padding: 10mm 15mm;
+            }
         }
     </style>
 </head>
+
 <body>
 
-    <!-- INPUT PANEL -->
-    <div class="input-panel no-print">
-        <h2>১৬টি ফরম্যাটের যেকোনো একটি এখানে পেস্ট করুন:</h2>
-        <textarea id="raw-data" placeholder="এখানে মেসেজ বা পেস্ট করা ডাটা দিন..."></textarea>
-        <button class="action-btn" onclick="parseAndGenerate()">Extract & Generate PDF</button>
+    <!-- =========================
+         ANIMATED DEPLOYED BAR
+    ========================= -->
+
+    <div class="top-marquee no-print">
+
+        <div class="marquee-track">
+
+            <div class="marquee-item">
+                <span>✦</span>
+                Deployed by @husainahmadrayhan
+            </div>
+
+            <div class="marquee-item">
+                <span>✦</span>
+                Testimonial Generator
+            </div>
+
+            <div class="marquee-item">
+                <span>✦</span>
+                Deployed by @husainahmadrayhan
+            </div>
+
+            <div class="marquee-item">
+                <span>✦</span>
+                Testimonial Generator
+            </div>
+
+            <div class="marquee-item">
+                <span>✦</span>
+                Deployed by @husainahmadrayhan
+            </div>
+
+            <div class="marquee-item">
+                <span>✦</span>
+                Testimonial Generator
+            </div>
+
+        </div>
+
     </div>
 
-    <!-- PRINTABLE TEMPLATE -->
-    <div class="page" id="printable-area">
-        <div>
-            <div class="header-banner">
-                <h1 class="institution-name">Cambrian <span>School & College</span></h1>
+
+    <!-- =========================
+         NAVBAR
+    ========================= -->
+
+    <nav class="navbar no-print">
+
+        <a href="#" class="brand">
+
+            <div class="brand-icon">
+                📄
             </div>
-            <div class="sub-tagline">Education for Peace and Self-Reliance</div>
-            <div class="date-row">
-                Date : <span id="issue-date"></span>
+
+            <div class="brand-text">
+                Testimonial <span>Generator</span>
             </div>
+
+        </a>
+
+
+        <div class="nav-links">
+
+            <a href="#" class="nav-link active">
+                🏠 Home
+            </a>
+
+            <a href="#generator" class="nav-link">
+                ⚡ Generate
+            </a>
+
+            <a href="#preview" class="nav-link">
+                ◫ Preview
+            </a>
+
+            <a href="#" class="nav-link">
+                ⓘ About
+            </a>
+
         </div>
+
+
+        <button
+            class="canva-btn"
+            onclick="openCanvaModal()"
+        >
+            ✨ Connect with Canva
+        </button>
+
+    </nav>
+
+
+    <!-- =========================
+         INPUT PANEL
+    ========================= -->
+
+    <div
+        class="input-panel no-print"
+        id="generator"
+    >
+
+        <div class="section-heading">
+            <div class="section-icon">📄</div>
+            <div>১. ডাটা পেস্ট করুন (অটো এক্সট্র্যাক্ট)</div>
+        </div>
+
+
+        <textarea
+            id="raw-data"
+            placeholder="এখানে সমস্ত ডাটা পেস্ট করুন..."
+        ></textarea>
+
+
+        <div class="manual-section-title">
+            ২. অথবা সরাসরি কপি-পেস্ট / ম্যানুয়ালি লিখে এডিট করুন
+        </div>
+
+
+        <div class="input-grid">
+
+            <div class="input-group">
+
+                <label for="manual-name">
+                    Student Name:
+                </label>
+
+                <input
+                    type="text"
+                    id="manual-name"
+                    placeholder="নাম পেস্ট করুন"
+                >
+
+            </div>
+
+
+            <div class="input-group">
+
+                <label for="manual-father">
+                    Father's Name:
+                </label>
+
+                <input
+                    type="text"
+                    id="manual-father"
+                    placeholder="পিতার নাম পেস্ট করুন"
+                >
+
+            </div>
+
+
+            <div class="input-group">
+
+                <label for="manual-mother">
+                    Mother's Name:
+                </label>
+
+                <input
+                    type="text"
+                    id="manual-mother"
+                    placeholder="মাতার নাম পেস্ট করুন"
+                >
+
+            </div>
+
+
+            <div class="input-group">
+
+                <label for="manual-dob">
+                    Date of Birth:
+                </label>
+
+                <input
+                    type="text"
+                    id="manual-dob"
+                    placeholder="DD/MM/YYYY"
+                >
+
+            </div>
+
+        </div>
+
+
+        <div class="btn-group">
+
+            <button
+                class="action-btn"
+                onclick="parseAndGenerate()"
+            >
+                ⬇ Extract & Generate PDF
+            </button>
+
+
+            <button
+                class="clear-btn"
+                onclick="clearData()"
+            >
+                🗑 Clear Data
+            </button>
+
+        </div>
+
+    </div>
+
+
+    <!-- =========================
+         PREVIEW
+    ========================= -->
+
+    <div
+        class="preview-label no-print"
+        id="preview"
+    >
+        📋 Testimonial Preview
+    </div>
+
+
+    <div
+        class="page"
+        id="printable-area"
+    >
+
+        <div>
+
+            <div class="header-banner">
+
+                <h1 class="institution-name">
+                    Cambrian
+                    <span>School & College</span>
+                </h1>
+
+            </div>
+
+
+            <div class="sub-tagline">
+                Education for Peace and Self-Reliance
+            </div>
+
+
+            <div class="date-row">
+                Date :
+                <span id="issue-date"></span>
+            </div>
+
+        </div>
+
 
         <div class="content">
-            <div class="title">TESTIMONIAL</div>
-            <div class="body-paragraph">
-                This is to certify that <b id="out-name">Nusaiba Jannat Arisha</b>, child of <b id="out-father">BULBUL AHMED</b> & <b id="out-mother">PINKI AHMED</b>, is a student of this institution. Date of birth according to record is <span id="out-dob">28/10/2024</span>. To the best of my knowledge, bears a good moral character and did not take part in any activity subversive to state discipline.
+
+            <div class="title">
+                TESTIMONIAL
             </div>
-            <div style="margin-top: 25px;">I wish every success in life.</div>
+
+
+            <div class="body-paragraph">
+
+                This is to certify that
+                <b id="out-name">---</b>,
+
+                child of
+                <b id="out-father">---</b>
+
+                &
+
+                <b id="out-mother">---</b>,
+
+                is a student of this institution.
+
+                Date of birth according to record is
+
+                <span id="out-dob">
+                    --/--/----
+                </span>.
+
+                To the best of my knowledge, bears a good moral
+                character and did not take part in any activity
+                subversive to state discipline.
+
+            </div>
+
+
+            <div style="margin-top:25px;">
+                I wish every success in life.
+            </div>
+
         </div>
+
 
         <div>
+
             <div class="signature-section">
-                <div style="font-family: 'Brush Script MT', cursive; font-size: 24px; color: #1e3a8a;">Principal</div>
-                <div style="font-weight: bold; font-size: 16px;">Principal</div>
-                <div style="font-size: 13px; color: #333;">
-                    Cambrian School & College<br>
+
+                <div
+                    style="
+                    font-family:'Brush Script MT',cursive;
+                    font-size:24px;
+                    color:#1e3a8a;
+                    "
+                >
+                    Principal
+                </div>
+
+                <div
+                    style="
+                    font-weight:bold;
+                    font-size:16px;
+                    "
+                >
+                    Principal
+                </div>
+
+                <div
+                    style="
+                    font-size:13px;
+                    color:#333;
+                    "
+                >
+                    Cambrian School & College
+                    <br>
                     Keraniganj, Dhaka-1310
                 </div>
+
             </div>
+
+
             <div class="footer">
-                <b>CAMBRIAN COLLEGE:</b> Dhaka, Bangladesh | Mob: 01817505494 | E-mail: info@cambrianbd.com
+
+                <b>CAMBRIAN COLLEGE:</b>
+                Dhaka, Bangladesh |
+                Mob: 01817505494 |
+                E-mail: info@cambrianbd.com
+
             </div>
+
         </div>
+
     </div>
 
-    <!-- UNIVERSAL PARSING ENGINE -->
+
+    <!-- =========================
+         CANVA MODAL
+    ========================= -->
+
+    <div
+        class="modal"
+        id="canvaModal"
+        onclick="closeCanvaOutside(event)"
+    >
+
+        <div class="modal-box">
+
+            <div class="modal-icon">
+                ✨
+            </div>
+
+            <h3>
+                Connect with Canva
+            </h3>
+
+            <p>
+                Canva integration-এর জন্য এই জায়গাটি
+                প্রস্তুত করা হয়েছে। পরবর্তী ধাপে এখানে
+                Canva OAuth/API connection যুক্ত করা যাবে।
+            </p>
+
+
+            <div class="modal-actions">
+
+                <button
+                    class="modal-close"
+                    onclick="closeCanvaModal()"
+                >
+                    Cancel
+                </button>
+
+
+                <button
+                    class="modal-connect"
+                    onclick="startCanvaConnection()"
+                >
+                    Continue
+                </button>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- =========================
+         JAVASCRIPT
+    ========================= -->
+
     <script>
-        document.getElementById("issue-date").innerText = new Date().toLocaleDateString('en-GB');
 
-        // ১. ডিজিট কনভার্টার (বাংলা সংখ্যা -> ইংরেজি সংখ্যা)
-        function toEngDigits(str) {
-            const bng = ['০', '১', '২', '৩', '৪', '৫', '৬', '৭', '৮', '৯'];
-            const eng = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9'];
-            return str.replace(/[০-৯]/g, w => eng[bng.indexOf(w)]);
+        /* =========================
+           DATE
+        ========================= */
+
+        document.getElementById("issue-date").innerText =
+            new Date().toLocaleDateString("en-GB");
+
+
+        /* =========================
+           BANGLA NUMBER → ENGLISH
+        ========================= */
+
+        function bnToEnNumeral(str) {
+
+            let bnNums = [
+                "০","১","২","৩","৪",
+                "৫","৬","৭","৮","৯"
+            ];
+
+            return str.replace(
+                /[০-৯]/g,
+                d => bnNums.indexOf(d)
+            );
         }
 
-        // ২. ফলব্যাক বাংলা টু ইংরেজি স্পেলিং ইঞ্জিনিয়ারিং
-        function banglaToEnglishText(bnStr) {
-            if (!bnStr) return "";
-            bnStr = bnStr.replace(/মোঃ|মো:|মো/g, "Md.").replace(/মোছাঃ|মোছা/g, "Mst.");
-            const charMap = {
-                'অ':'O','আ':'A','ই':'I','ঈ':'I','উ':'U','ঊ':'U','এ':'E','ও':'O',
-                'ক':'K','খ':'Kh','গ':'G','ঘ':'Gh','চ':'Ch','ছ':'Chh','জ':'J','ঝ':'Jh',
-                'ট':'T','ঠ':'Th','ড':'D','ঢ':'Dh','ত':'T','থ':'Th','দ':'D','ধ':'Dh','ন':'N',
-                'প':'P','ফ':'F','ব':'B','ভ':'Bh','ম':'M','য':'J','র':'R','ল':'L','শ':'Sh','স':'S','হ':'H',
-                'া':'a','ি':'i','ী':'ee','ু':'u','ূ':'u','ে':'e','ো':'o','্':''
-            };
-            let res = "";
-            for (let c of bnStr) res += charMap[c] !== undefined ? charMap[c] : c;
-            return res.replace(/\b\w/g, l => l.toUpperCase()).trim();
+
+        /* =========================
+           CLEAN NAME
+        ========================= */
+
+        function cleanName(str) {
+
+            if (!str) return "";
+
+            return str
+
+                .replace(
+                    /^.*?(father's\s*name|fathers\s*name|father\s*name|father|mother's\s*name|mothers\s*name|mother\s*name|mother|english\s*name|bangla\s*name|name\s*english|english|bangla|name|পিতার\s*নাম|পিতা|মাতার\s*নাম|মাতা|নাম\s*ইংরেজিতে|নাম\s*বাংলায়|নাম|pita|mata)/i,
+                    ""
+                )
+
+                .replace(
+                    /\((?:ইংরেজী|ইংরেজি|বাংলা|English|Bangla|EN|BN)\)/gi,
+                    ""
+                )
+
+                .replace(
+                    /^[:\-\=\|\s\uFF1A\u25CB\u25CF\u2022\u2665\u2660\u2663\u25C6\u25C7]+$/g,
+                    ""
+                )
+
+                .replace(
+                    /^[:\-\=\|\s\uFF1A\u25CB\u25CF\u2022]+/,
+                    ""
+                )
+
+                .replace(/\s+/g, " ")
+
+                .trim();
         }
 
-        // ৩. প্রধান পার্সার ফাংশন
+
+        /* =========================
+           CHECK ENGLISH NAME
+        ========================= */
+
+        function isPureEnglishName(str) {
+
+            let cleaned = cleanName(str);
+
+            return /^[a-zA-Z\s\.\-]+$/.test(cleaned)
+                && cleaned.length > 2;
+        }
+
+
+        /* =========================
+           PARSE & GENERATE
+        ========================= */
+
         function parseAndGenerate() {
-            let rawText = document.getElementById("raw-data").value;
-            if (!rawText.trim()) { alert("দয়া করে ডাটা পেস্ট করুন!"); return; }
 
-            // টেক্সট ক্লিন করা
-            let text = toEngDigits(rawText);
+            let rawText =
+                document.getElementById("raw-data").value;
 
-            // ইমোজি, স্টার, ব্র্যাকেট ইত্যাদি অপ্রয়োজনীয় ক্যারেক্টার ক্লিন করা
-            text = text.replace(/[★♦️🗣️*_\-]/g, ' ')
-                       .replace(/(\n\s*){2,}/g, '\n'); // অতিরিক্ত নিউলাইন মুছে ফেলা
 
-            // ক) জন্ম তারিখ নির্ধারণ (DD-MM-YYYY, DD/MM/YYYY, YYYY-MM-DD)
-            let dobMatch = text.match(/(\d{2}[\/\.-]\d{2}[\/\.-]\d{4}|\d{4}[\/\.-]\d{2}[\/\.-]\d{2})/);
-            let finalDob = dobMatch ? dobMatch[0] : "";
-            if (finalDob.includes("-")) finalDob = finalDob.replace(/-/g, "/");
+            let nameEng =
+                document.getElementById("manual-name").value.trim();
 
-            // খ) সেকশন বা ব্লক ভাগ করা (পিতা এবং মাতা ব্লক আলাদা করা)
-            let fatherBlock = "", motherBlock = "", selfBlock = text;
+            let fatherEng =
+                document.getElementById("manual-father").value.trim();
 
-            if (/পিতার|Father/i.test(text)) {
-                let parts = text.split(/পিতার|Father/i);
-                selfBlock = parts[0];
-                let rest = parts[1] || "";
-                if (/মাতার|Mother/i.test(rest)) {
-                    let mParts = rest.split(/মাতার|Mother/i);
-                    fatherBlock = mParts[0];
-                    motherBlock = mParts[1];
-                } else {
-                    fatherBlock = rest;
-                }
-            } else if (/মাতার|Mother/i.test(text)) {
-                let parts = text.split(/মাতার|Mother/i);
-                selfBlock = parts[0];
-                motherBlock = parts[1];
-            }
+            let motherEng =
+                document.getElementById("manual-mother").value.trim();
 
-            // গ) ইংরেজি নাম ফিল্টার করার স্মার্ট হেল্পার
-            function extractEnglishName(blockText) {
-                if (!blockText) return "";
+            let dob =
+                document.getElementById("manual-dob").value.trim();
 
-                // ব্র্যাকেটে থাকা ইংরেজি নাম চেক করা: যেমন: (MD MOHI UDDIN BHUIYAN)
-                let bracketMatch = blockText.match(/\(\s*([A-Za-z\s\.]+)\s*\)/);
-                if (bracketMatch && bracketMatch[1].length > 2) {
-                    return bracketMatch[1].trim();
-                }
 
-                // সাধারণ লাইন ভিত্তিক ইংরেজি নাম খোঁজা
-                let lines = blockText.split('\n');
-                for (let line of lines) {
-                    let clean = line.replace(/[^A-Za-z\s\.]/g, '').replace(/\s+/g, ' ').trim();
-                    let upper = clean.toUpperCase();
+            if (rawText.trim()) {
 
-                    // ঠিকানা বা অপ্রয়োজনীয় কিওয়ার্ড স্কিপ
-                    if (clean.length > 2 &&
-                        !upper.includes("NAME") && !upper.includes("ENGLISH") && !upper.includes("BANGLA") &&
-                        !upper.includes("VILLAGE") && !upper.includes("POST") && !upper.includes("WARD") &&
-                        !upper.includes("DISTRICT") && !upper.includes("UPAZILA") && !upper.includes("UNION") &&
-                        !upper.includes("POUROSHAVA") && !upper.includes("GENDER") && !upper.includes("MALE") &&
-                        !upper.includes("FEMALE") && !upper.includes("CHILD") && !upper.includes("DATE") &&
-                        !upper.includes("BIRTH") && !upper.includes("NID") && !upper.includes("NUMBER")) {
-                        return clean;
+                let text =
+                    bnToEnNumeral(rawText)
+                    .replace(
+                        /[\u{1F300}-\u{1F6FF}\u{1F900}-\u{1F9FF}\u{2600}-\u{26FF}\u{2700}-\u{27BF}🔹★♦️🗣️*○•♥️♠️]/gu,
+                        ""
+                    );
+
+
+                let lines =
+                    text
+                    .split("\n")
+                    .map(l => l.trim())
+                    .filter(l => l.length > 0);
+
+
+                let monthMap = {
+
+                    JAN:"01",
+                    JANUARY:"01",
+
+                    FEB:"02",
+                    FEBRUARY:"02",
+
+                    MAR:"03",
+                    MARCH:"03",
+
+                    APR:"04",
+                    APRIL:"04",
+
+                    MAY:"05",
+
+                    JUN:"06",
+                    JUNE:"06",
+
+                    JUL:"07",
+                    JULY:"07",
+
+                    AUG:"08",
+                    AUGUST:"08",
+
+                    SEP:"09",
+                    SEPTEMBER:"09",
+
+                    OCT:"10",
+                    OCTOBER:"10",
+
+                    NOV:"11",
+                    NOVEMBER:"11",
+
+                    DEC:"12",
+                    DECEMBER:"12"
+                };
+
+
+                /* DOB */
+
+                if (!dob) {
+
+                    let dobTextMatch =
+                        text.match(
+                            /(\d{1,2})[\/\.-]([a-zA-Z]+)[\/\.-](\d{4})/i
+                        );
+
+
+                    if (
+                        dobTextMatch &&
+                        monthMap[
+                            dobTextMatch[2].toUpperCase()
+                        ]
+                    ) {
+
+                        dob =
+                            `${dobTextMatch[1].padStart(2,"0")}/` +
+                            `${monthMap[dobTextMatch[2].toUpperCase()]}/` +
+                            `${dobTextMatch[3]}`;
+
+                    } else {
+
+                        let dobNumMatch =
+                            text.match(
+                                /(?:date\s*of\s*birth|dob|birth|জন্ম\s*তারিখ|ইংরেজি\s*তে|তারিখ)?[^\n\d]*(\d{1,2})[\/\.-](\d{1,2})[\/\.-](\d{4})/i
+                            );
+
+
+                        if (dobNumMatch) {
+
+                            dob =
+                                `${dobNumMatch[1].padStart(2,"0")}/` +
+                                `${dobNumMatch[2].padStart(2,"0")}/` +
+                                `${dobNumMatch[3]}`;
+                        }
                     }
                 }
-                return "";
-            }
 
-            // ঘ) বাংলা নাম ধরে ইংরেজিতে অনুবাদ করার হেল্পার (Fallback)
-            function extractBanglaNameAndTranslate(blockText) {
-                if (!blockText) return "";
-                let lines = blockText.split('\n');
-                for (let line of lines) {
-                    let clean = line.replace(/[^\u0980-\u09FF\s\.]/g, '').replace(/\s+/g, ' ').trim();
-                    if (clean.length > 2 && !clean.includes("ঠিকানা") && !clean.includes("পিতা") && !clean.includes("মাতা")) {
-                        return banglaToEnglishText(clean);
+
+                let currentSection = "";
+
+
+                for (
+                    let i = 0;
+                    i < lines.length;
+                    i++
+                ) {
+
+                    let line = lines[i];
+
+                    let lower =
+                        line.toLowerCase();
+
+
+                    if (
+                        lower.includes("পিতার তথ্য") ||
+                        lower.includes("father")
+                    ) {
+
+                        currentSection = "father";
+
+                    }
+
+                    else if (
+                        lower.includes("মাতার তথ্য") ||
+                        lower.includes("mother")
+                    ) {
+
+                        currentSection = "mother";
+
+                    }
+
+                    else if (
+                        lower.includes("নিবন্ধনের তথ্য") ||
+                        lower.includes("শিক্ষার্থীর তথ্য")
+                    ) {
+
+                        currentSection = "student";
+                    }
+
+
+                    /* FATHER */
+
+                    if (
+                        (
+                            lower.startsWith("father") ||
+                            lower.includes("father's") ||
+                            lower.includes("fathers") ||
+                            lower.includes("পিতা") ||
+                            lower.includes("pita") ||
+                            (
+                                currentSection === "father" &&
+                                lower.includes("ইংরেজি")
+                            )
+                        ) &&
+                        !fatherEng
+                    ) {
+
+                        let cleaned =
+                            cleanName(line);
+
+
+                        if (
+                            isPureEnglishName(cleaned)
+                        ) {
+
+                            fatherEng = cleaned;
+
+                        }
+
+                        else if (
+                            i + 1 < lines.length &&
+                            isPureEnglishName(lines[i + 1])
+                        ) {
+
+                            fatherEng =
+                                cleanName(lines[i + 1]);
+                        }
+                    }
+
+
+                    /* MOTHER */
+
+                    else if (
+                        (
+                            lower.startsWith("mother") ||
+                            lower.includes("mother's") ||
+                            lower.includes("mothers") ||
+                            lower.includes("মাতা") ||
+                            lower.includes("mata") ||
+                            (
+                                currentSection === "mother" &&
+                                lower.includes("ইংরেজি")
+                            )
+                        ) &&
+                        !motherEng
+                    ) {
+
+                        let cleaned =
+                            cleanName(line);
+
+
+                        if (
+                            isPureEnglishName(cleaned)
+                        ) {
+
+                            motherEng = cleaned;
+
+                        }
+
+                        else if (
+                            i + 1 < lines.length &&
+                            isPureEnglishName(lines[i + 1])
+                        ) {
+
+                            motherEng =
+                                cleanName(lines[i + 1]);
+                        }
+                    }
+
+
+                    /* STUDENT */
+
+                    else if (
+                        (
+                            lower.startsWith("name") ||
+                            lower.includes("নাম") ||
+                            lower.includes("ইংরেজি") ||
+                            lower.includes("ইংরেজী")
+                        ) &&
+                        !nameEng &&
+                        currentSection !== "father" &&
+                        currentSection !== "mother"
+                    ) {
+
+                        let cleaned =
+                            cleanName(line);
+
+
+                        if (
+                            isPureEnglishName(cleaned)
+                        ) {
+
+                            nameEng = cleaned;
+
+                        }
+
+                        else if (
+                            i + 1 < lines.length &&
+                            isPureEnglishName(lines[i + 1])
+                        ) {
+
+                            nameEng =
+                                cleanName(lines[i + 1]);
+                        }
                     }
                 }
-                return "";
+
+
+                /* FALLBACK */
+
+                if (
+                    !nameEng ||
+                    !fatherEng ||
+                    !motherEng
+                ) {
+
+                    let englishCandidates = [];
+
+
+                    for (let line of lines) {
+
+                        let cleaned =
+                            cleanName(line);
+
+                        let lower =
+                            line.toLowerCase();
+
+
+                        if (
+                            line.match(
+                                /\d{1,2}[\/\.-](?:\d{1,2}|[a-zA-Z]+)[\/\.-]\d{4}/
+                            ) ||
+                            line.includes(",") ||
+                            lower.includes("divition") ||
+                            lower.includes("district") ||
+                            lower.includes("upzala") ||
+                            lower.includes("union") ||
+                            lower.includes("male") ||
+                            lower.includes("female") ||
+                            lower.includes("mobile") ||
+                            lower.includes("nid") ||
+                            lower.includes("birth")
+                        ) {
+
+                            continue;
+                        }
+
+
+                        if (
+                            isPureEnglishName(cleaned) &&
+                            cleaned !== nameEng &&
+                            cleaned !== fatherEng &&
+                            cleaned !== motherEng
+                        ) {
+
+                            englishCandidates.push(cleaned);
+                        }
+                    }
+
+
+                    if (
+                        !nameEng &&
+                        englishCandidates.length > 0
+                    ) {
+
+                        nameEng =
+                            englishCandidates.shift();
+                    }
+
+
+                    if (
+                        !fatherEng &&
+                        englishCandidates.length > 0
+                    ) {
+
+                        fatherEng =
+                            englishCandidates.shift();
+                    }
+
+
+                    if (
+                        !motherEng &&
+                        englishCandidates.length > 0
+                    ) {
+
+                        motherEng =
+                            englishCandidates.shift();
+                    }
+                }
             }
 
-            // নাম বের করা
-            let finalName = extractEnglishName(selfBlock) || extractBanglaNameAndTranslate(selfBlock);
-            let finalFather = extractEnglishName(fatherBlock) || extractBanglaNameAndTranslate(fatherBlock);
-            let finalMother = extractEnglishName(motherBlock) || extractBanglaNameAndTranslate(motherBlock);
 
-            // ঘ) UI তে বসানো
-            document.getElementById("out-name").innerText = finalName || "Nusaiba Jannat Arisha";
-            document.getElementById("out-father").innerText = finalFather || "BULBUL AHMED";
-            document.getElementById("out-mother").innerText = finalMother || "PINKI AHMED";
-            document.getElementById("out-dob").innerText = finalDob || "28/10/2024";
+            /* INPUT VALUES */
 
-            // অটো প্রিন্ট ডায়ালগ
-            setTimeout(() => { window.print(); }, 300);
+            document.getElementById(
+                "manual-name"
+            ).value =
+                cleanName(nameEng).toUpperCase();
+
+
+            document.getElementById(
+                "manual-father"
+            ).value =
+                cleanName(fatherEng).toUpperCase();
+
+
+            document.getElementById(
+                "manual-mother"
+            ).value =
+                cleanName(motherEng).toUpperCase();
+
+
+            document.getElementById(
+                "manual-dob"
+            ).value = dob;
+
+
+            /* OUTPUT */
+
+            document.getElementById(
+                "out-name"
+            ).innerText =
+                cleanName(nameEng).toUpperCase() || "---";
+
+
+            document.getElementById(
+                "out-father"
+            ).innerText =
+                cleanName(fatherEng).toUpperCase() || "---";
+
+
+            document.getElementById(
+                "out-mother"
+            ).innerText =
+                cleanName(motherEng).toUpperCase() || "---";
+
+
+            document.getElementById(
+                "out-dob"
+            ).innerText =
+                dob || "--/--/----";
+
+
+            setTimeout(() => {
+
+                window.print();
+
+            }, 400);
         }
+
+
+        /* =========================
+           CLEAR DATA
+        ========================= */
+
+        function clearData() {
+
+            document.getElementById(
+                "raw-data"
+            ).value = "";
+
+
+            document.getElementById(
+                "manual-name"
+            ).value = "";
+
+
+            document.getElementById(
+                "manual-father"
+            ).value = "";
+
+
+            document.getElementById(
+                "manual-mother"
+            ).value = "";
+
+
+            document.getElementById(
+                "manual-dob"
+            ).value = "";
+
+
+            document.getElementById(
+                "out-name"
+            ).innerText = "---";
+
+
+            document.getElementById(
+                "out-father"
+            ).innerText = "---";
+
+
+            document.getElementById(
+                "out-mother"
+            ).innerText = "---";
+
+
+            document.getElementById(
+                "out-dob"
+            ).innerText = "--/--/----";
+        }
+
+
+        /* =========================
+           CANVA UI
+        ========================= */
+
+        function openCanvaModal() {
+
+            document
+                .getElementById("canvaModal")
+                .classList.add("show");
+        }
+
+
+        function closeCanvaModal() {
+
+            document
+                .getElementById("canvaModal")
+                .classList.remove("show");
+        }
+
+
+        function closeCanvaOutside(event) {
+
+            if (
+                event.target.id === "canvaModal"
+            ) {
+
+                closeCanvaModal();
+            }
+        }
+
+
+        function startCanvaConnection() {
+
+            alert(
+                "Canva integration-এর পরবর্তী ধাপে এখানে OAuth/API connection যুক্ত করা হবে।"
+            );
+
+            closeCanvaModal();
+        }
+
     </script>
+
 </body>
 </html>
+

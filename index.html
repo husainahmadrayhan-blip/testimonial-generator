@@ -102,10 +102,6 @@
       <label>বাংলা তথ্য</label>
       <textarea id="raw-data-bn" placeholder="বাংলা তথ্য এখানে paste করুন..."></textarea>
     </div>
-    <div>
-      <label>English তথ্য</label>
-      <textarea id="raw-data-en" placeholder="English তথ্য এখানে paste করুন..."></textarea>
-    </div>
   </div>
 
   <div class="grid">
@@ -1698,13 +1694,69 @@ function extractEnglishRecord(lines){
   return {enName:r.enName||'',enFather:r.enFather||'',enMother:r.enMother||'',enGender:r.enGender||''};
 }
 
+function parseJsonRegistration(raw){
+  const text=String(raw||'').trim();
+  if(!text || (text[0]!=='{' && text[0]!=='[')) return null;
+  let data;
+  try { data=JSON.parse(text); } catch(e) { return null; }
+  if(Array.isArray(data)) data=data[0]||{};
+  if(!data || typeof data!=='object') return null;
+
+  const p=data.person||data.child||{};
+  const f=data.father||{};
+  const m=data.mother||{};
+
+  const joinName=(a,b)=>[a,b].map(v=>String(v||'').trim()).filter(Boolean).join(' ');
+  const bnGender=String(p.gender||'').trim();
+  let gender='';
+  if(/^(?:মেয়ে|মেয়ে|নারী|মহিলা|female|f)$/iu.test(bnGender)) gender='Female';
+  else if(/^(?:ছেলে|পুরুষ|male|m)$/iu.test(bnGender)) gender='Male';
+
+  return {
+    name:joinName(p.firstNameBn,p.lastNameBn),
+    enName:joinName(p.firstNameEn,p.lastNameEn),
+    father:String(f.nameBn||'').trim(),
+    enFather:String(f.nameEn||'').trim(),
+    mother:String(m.nameBn||'').trim(),
+    enMother:String(m.nameEn||'').trim(),
+    dob:parseDateString(String(p.birthDate||''))||String(p.birthDate||'').trim(),
+    enGender:gender,
+    childOrder:String(p.childOrder||'').trim(),
+    fatherAge:String(f.birthDate||'').trim(),
+    motherAge:String(m.birthDate||'').trim(),
+    score:250,
+    sourceJson:data
+  };
+}
+
 function parseAndGenerate(){
   const rawBn = document.getElementById('raw-data-bn').value;
-  const rawEn = document.getElementById('raw-data-en').value;
+  const enBox = document.getElementById('raw-data-en');
+  const rawEn = enBox ? enBox.value : '';
 
   if(!rawBn.trim() && !rawEn.trim()){
     document.getElementById('status').textContent =
       'আগে বাংলা অথবা English তথ্য paste করুন।';
+    return;
+  }
+
+  // JSON input support. A complete registration object can be pasted into
+  // either text box. JSON is parsed directly instead of going through the
+  // free-form text heuristics.
+  const jsonRecord = parseJsonRegistration(rawBn.trim() || rawEn.trim());
+  if(jsonRecord){
+    setOutput(jsonRecord);
+    const found = [
+      jsonRecord.name && 'নাম',
+      jsonRecord.enName && 'English নাম',
+      jsonRecord.father && 'পিতা',
+      jsonRecord.mother && 'মাতা',
+      jsonRecord.dob && 'জন্ম তারিখ',
+      jsonRecord.enGender && 'Gender'
+    ].filter(Boolean);
+    document.getElementById('status').textContent =
+      `JSON Detected: ${found.join(' + ') || 'কিছু পাওয়া যায়নি'} | ` +
+      'JSON data সরাসরি form-এ বসানো হয়েছে।';
     return;
   }
 
@@ -1815,7 +1867,8 @@ window.addEventListener('afterprint', () => {
 
 function clearData(){
   document.getElementById('raw-data-bn').value = '';
-  document.getElementById('raw-data-en').value = '';
+  const enBox = document.getElementById('raw-data-en');
+  if(enBox) enBox.value = '';
 
   setOutput({});
 
